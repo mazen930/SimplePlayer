@@ -1,6 +1,8 @@
 package com.example.simpleplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,18 +33,33 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Provider;
+import java.util.ArrayList;
 
-public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
-    private static final int RECOVERY_REQUEST = 1;
-    private YouTubePlayerView youTubeView;
+public class MainActivity extends AppCompatActivity {
+    ArrayList<Songs>songsArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youTubePlayerView);
-        //youTubeView.setVisibility(View.INVISIBLE);
-        youTubeView.initialize(ShortCuts.YOUTUBE_API_KEY, this);
+        // Lookup the recyclerview in activity layout
+        RecyclerView rvSongs = findViewById(R.id.songs_recycle_view);
+
+        // Initialize songs
+        songsArrayList=new ArrayList<>();
+        for(int i=0;i<30;i++)
+            songsArrayList.add(new Songs("Begin you htyuldkiuy thdwq lqeqjeqwk mazen","efwejf",new Songs.Thumbnails(120,90,"https://i.ytimg.com/vi/zrFI2gJSuwA/default.jpg")));
+
+        // Create adapter passing in the sample user data
+        SongsAdapter adapter = new SongsAdapter(songsArrayList);
+
+        // Attach the adapter to the recyclerview to populate items
+        rvSongs.setAdapter(adapter);
+
+        // Set layout manager to position the items
+        rvSongs.setLayoutManager(new LinearLayoutManager(this));
+
+
         /*final SearchView mainSearchView=findViewById(R.id.song_search_view_main);
         mainSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -137,16 +154,4 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         }
     }
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-        if (!b) {
-            youTubePlayer.play();
-            youTubePlayer.cueVideo("4Q46xYqUwZQ"); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
-        }
-    }
-
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-    }
 }
