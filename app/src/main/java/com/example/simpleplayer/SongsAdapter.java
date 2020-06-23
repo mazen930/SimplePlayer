@@ -22,18 +22,24 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
 
     private ArrayList<Songs> songs;
     public Context context;
+    private static final int FOOTER_VIEW = 1;
 
     public SongsAdapter(ArrayList<Songs> songs) {
         this.songs=songs;
     }
 
+   // we can create footer and normal view holder to define what to do in each case but
+   // in this case we will make return type Recycle.ViewHolder Instead of ViewHolder
+    // but i didn't need that in this case as i want only change appearance and doesn't behave different
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
+        if (viewType == FOOTER_VIEW) {
+            View footerViewHolder = inflater.inflate(R.layout.load_more_bar, parent, false);
+            return new ViewHolder(footerViewHolder);
+        }
         // Inflate the custom layout
         View contactView = inflater.inflate(R.layout.recycler_list_view_row, parent, false);
 

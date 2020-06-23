@@ -9,6 +9,8 @@ public class Songs {
         this.id = id;
         this.songThumbnail = songThumbnail;
     }
+    public Songs() {
+    }
 
     public String getTitle() {
         return title;
